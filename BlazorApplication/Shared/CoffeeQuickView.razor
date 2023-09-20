@@ -1,0 +1,53 @@
+﻿<div class="coffee-item"
+@onmouseover="(() => { ShowDescription = true; })"
+@onmousemove="((e) => StartUpdateTimer(e))"
+@onmouseout="(() => { ShowDescription = false; })">
+    <a href="coffee/@Coffee.Id">
+        <img src="@Coffee.Image" alt="@Coffee.Title" />
+        <p>@Coffee.Title</p>
+    </a>
+</div>
+
+@if (ShowDescription)
+{
+    <div class="description-popup" style="display: @ShowDescription ? 'block' : 'none'; left: @PopupLeft; top: @PopupTop;">
+        <div class="description-content">
+            <p>@Coffee.Description</p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Coffee Coffee { get; set; } = new();
+    public bool ShowDescription { get; set; } = false;
+    public string PopupTop { get; set; } = "0px";
+    public string PopupLeft { get; set; } = "0px";
+    private Timer updateTimer;
+    private MouseEventArgs lastMouseMoveArgs;
+
+    private void StartUpdateTimer(MouseEventArgs e)
+    {
+        lastMouseMoveArgs = e;
+
+        if (updateTimer == null)
+        {
+            // Set the update interval in milliseconds (e.g., 1000ms for 1 second)
+            int updateIntervalMs = 10;
+            updateTimer = new Timer(UpdatePopupPositionCallback, null, 0, updateIntervalMs);
+        }
+    }
+
+    private void UpdatePopupPositionCallback(object state)
+    {
+        if (lastMouseMoveArgs != null)
+        {
+            // Update the position based on the last mouse move event
+            PopupTop = $"{lastMouseMoveArgs.ClientY}px";
+            PopupLeft = $"{lastMouseMoveArgs.ClientX}px";
+
+            // State has been updated, so trigger a UI update
+            InvokeAsync(StateHasChanged);
+        }
+    }
+}

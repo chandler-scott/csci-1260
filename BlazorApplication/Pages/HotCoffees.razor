@@ -1,0 +1,20 @@
+﻿@page "/hotcoffees"
+@inject CoffeeService _coffeeService
+
+<PageTitle>Hot Coffee</PageTitle>
+
+<CoffeeScroller Title="Hot Coffees" Coffees=@_hotCoffees/>
+
+
+@code {
+    private List<Coffee> _hotCoffees = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_coffeeService.Initialized is not true)
+        {
+            await _coffeeService.InitializeCoffees();
+        }
+        _hotCoffees = _coffeeService.HotCoffees;
+    }
+}

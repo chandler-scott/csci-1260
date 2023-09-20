@@ -1,0 +1,43 @@
+﻿.coffee-item {
+    flex: 0 0 auto;
+    padding: 30px;
+    margin: 10px 5px; /* Adjust the margin as needed */
+    text-align: center;
+}
+
+
+.description-popup {
+    position: fixed;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #00D69B;
+    color: #B0B0B0;
+    border-radius: 5px;
+    background-color: #1E1E1E;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 999; /* Adjust the z-index as needed */
+    max-height: 90vh; /* Limit the height of the popup */
+    max-width: 250px; /* Limit the height of the popup */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+.coffee-item:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: #00D69B;
+}
+
+.coffee-item img {
+    width: 150px;
+    height: 150px;
+}
+
+.coffee-item a {
+    text-decoration: none;
+    color: #B0B0B0;
+    cursor: pointer;
+}
+
+.coffee-item a:hover {
+    color: #00D69B;
+}

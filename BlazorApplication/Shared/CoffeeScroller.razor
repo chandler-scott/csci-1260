@@ -1,0 +1,38 @@
+﻿<div class="coffee-scroller">
+    <h3>@Title</h3>
+    <div class="coffee-list">
+        @foreach (var coffee in Coffees)
+        {
+            <CoffeeQuickView Coffee=coffee />
+        }
+    </div>
+</div>
+<style>
+    .coffee-scroller {
+        text-align: left;
+        max-width: 100%; 
+        margin: 0 0; 
+    }
+
+    .coffee-scroller h3 {
+        margin: 10px 50px;
+    }
+
+    .coffee-list {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center; /* Center horizontally */
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0; 
+    }
+</style>
+
+@code {
+    [Parameter]
+    public List<Coffee> Coffees { get; set; } = new();
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+}

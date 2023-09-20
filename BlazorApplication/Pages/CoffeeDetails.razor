@@ -1,0 +1,25 @@
+﻿@page "/coffee"
+@page "/coffee/{Id:int}"
+@inject CoffeeService _coffeeService
+
+<PageTitle>Coffee</PageTitle>
+<h1>@_coffee.Title</h1>
+<p>Ingredients: @string.Join(", ", _coffee.Ingredients)</p>
+<p>@_coffee.Description</p>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Coffee _coffee = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_coffeeService.Initialized is not true)
+        {
+            await _coffeeService.InitializeCoffees();
+        }
+        _coffee = _coffeeService.AllCoffees.Find(x => x.Id == Id);
+    }
+}
