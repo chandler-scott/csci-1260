@@ -1,5 +1,5 @@
 ﻿@page "/hotcoffees"
-@inject CoffeeService _coffeeService
+@inject ICoffeeService _coffeeService
 
 <PageTitle>Hot Coffee</PageTitle>
 
@@ -11,10 +11,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (_coffeeService.Initialized is not true)
-        {
-            await _coffeeService.InitializeCoffees();
-        }
-        _hotCoffees = _coffeeService.HotCoffees;
+        _hotCoffees = await _coffeeService.GetHotCoffeesAsync();
     }
 }

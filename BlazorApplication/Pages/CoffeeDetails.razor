@@ -1,6 +1,6 @@
 ﻿@page "/coffee"
 @page "/coffee/{Id:int}"
-@inject CoffeeService _coffeeService
+@inject ICoffeeService _coffeeService
 
 <PageTitle>Coffee</PageTitle>
 <h1>@_coffee.Title</h1>
@@ -16,10 +16,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (_coffeeService.Initialized is not true)
-        {
-            await _coffeeService.InitializeCoffees();
-        }
-        _coffee = _coffeeService.AllCoffees.Find(x => x.Id == Id);
+        var coffees = await _coffeeService.GetAllCoffeesAsync();
+        _coffee = coffees.Find(x => x.Id == Id);
     }
 }

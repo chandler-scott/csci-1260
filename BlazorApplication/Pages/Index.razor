@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject CoffeeService _coffeeService
+@inject ICoffeeService _coffeeService
 
 <PageTitle>Coffee</PageTitle>
 <div class="index-container">
@@ -45,13 +45,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (_coffeeService.Initialized is not true)
-        {
-            await _coffeeService.InitializeCoffees();
-        }
-        
-        _featuredCoffee = _coffeeService.AllCoffees[
-            _random.Next(_coffeeService.AllCoffees.Count)
-        ];
+        _featuredCoffee = await _coffeeService.GetRandomCoffeeAsync();
     }
 }
