@@ -1,0 +1,46 @@
+﻿@page "/"
+@using TapLib;
+
+<h3>RACE STANDINGS:</h3>
+
+@for (int i = 0; i < _race.RaceStandings.Count; i++)
+{
+    <p>@($"{i+1} {_race.RaceStandings[i]}")</p>
+}
+
+@foreach (var sprinter in _race.Sprinters)
+{
+        <SprinterComponent Runner=@sprinter/>
+}
+
+
+@code {
+    private Race _race;
+    private string s = "";
+    
+
+    protected override void OnInitialized()
+    {
+        Sprinter spr0 = new() { Name = "Greg", Speed = 3 };
+        Sprinter spr1 = new() { Name = "Gio", Speed = 4.6 };
+        Sprinter spr2 = new() { Name = "George", Speed = 4 };
+        Sprinter spr3 = new() { Name = "Guy", Speed = 3.4 };
+        List<Sprinter> sprinters = new() { spr0, spr1, spr2, spr3 };
+
+        _race = new(30);
+        _race.Sprinters = sprinters;
+        _race.RaceCompleted += (sender, message) => s = message;
+        _race.SprinterFinished += (sender, message) => s = message;
+        
+        _race.SubscribeToSprinterEvents();
+    }
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await _race.StartRace();
+            StateHasChanged(); // Ensure the component re-renders after async operation is complete
+        }
+    }
+}
